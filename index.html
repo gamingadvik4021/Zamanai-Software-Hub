@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zamanai.in | File Hub</title>
+    <title>Zamanai.in | APK Download Center</title>
     <style>
         body { background-color: #050505; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; padding: 0; }
         .hero { padding: 40px 20px; background: linear-gradient(to bottom, #111, #050505); border-bottom: 2px solid #FA0F00; }
-        .logo { width: 150px; border-radius: 15px; border: 2px solid #FFD700; margin-bottom: 15px; }
-        h1 { font-size: 2.2rem; margin: 10px 0; text-transform: uppercase; }
+        .logo { width: 130px; border-radius: 15px; border: 2px solid #FFD700; margin-bottom: 15px; }
+        h1 { font-size: 2rem; margin: 10px 0; text-transform: uppercase; letter-spacing: 2px; }
         .dot-in { color: #FA0F00; }
-        .container { padding: 20px; max-width: 600px; margin: auto; }
+        .container { padding: 20px; max-width: 500px; margin: auto; }
         
-        /* Section Styling */
-        .card { background: #161616; border: 1px solid #333; border-radius: 20px; padding: 25px; margin-bottom: 20px; }
-        h2 { color: #FFD700; margin-bottom: 15px; font-size: 1.5rem; }
+        .card { background: #161616; border: 1px solid #333; border-radius: 20px; padding: 20px; margin-bottom: 15px; text-align: left; }
+        h2 { color: #FFD700; margin-top: 0; font-size: 1.2rem; border-left: 4px solid #FA0F00; padding-left: 10px; margin-bottom: 15px; }
         
-        /* Buttons */
-        .btn { background: #FA0F00; color: white; padding: 12px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; margin: 10px 5px; cursor: pointer; border: none; }
-        .btn-download { background: #00FF00; color: black; }
-        
-        .file-list { text-align: left; background: #000; padding: 15px; border-radius: 10px; border: 1px solid #444; }
-        .file-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #222; }
+        .apk-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #222; }
+        .apk-info { display: flex; flex-direction: column; }
+        .apk-name { font-weight: bold; color: #fff; font-size: 1rem; }
+        .apk-meta { font-size: 0.75rem; color: #3DDC84; font-weight: bold; margin-top: 3px; } /* Android Green */
+
+        .btn-install { background: #FA0F00; color: white; padding: 10px 18px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 0.8rem; }
+        .btn-install:hover { background: #3DDC84; color: black; }
     </style>
 </head>
 <body>
@@ -29,36 +29,45 @@
     <div class="hero">
         <img src="https://raw.githubusercontent.com/gamingadvik4021/Zamanai-Software-Hub/refs/heads/master/Zamanai%20Tech.png" alt="Zamanai Tech Logo" class="logo">
         <h1>ZAMANAI<span class="dot-in">.IN</span></h1>
+        <p style="color: #888; font-size: 0.9rem;">Official Android Application Hub</p>
     </div>
 
     <div class="container">
+        
         <div class="card">
-            <h2>🎮 MINECRAFT DOWNLOADS</h2>
-            <div class="file-list">
-                <div class="file-item">
-                    <span>Minecraft Mod Pack v1.0</span>
-                    <a href="#" class="btn btn-download">GET</a>
+            <h2>🚀 FEATURED APKS</h2>
+            
+            <div class="apk-item">
+                <div class="apk-info">
+                    <span class="apk-name">Flappy Bird Pro</span>
+                    <span class="apk-meta">v1.0 • ANDROID APK</span>
                 </div>
-                <div class="file-item">
-                    <span>Custom Survival World</span>
-                    <a href="#" class="btn btn-download">GET</a>
+                <a href="FlappyBird.apk" class="btn-install">INSTALL</a>
+            </div>
+
+            <div class="apk-item">
+                <div class="apk-info">
+                    <span class="apk-name">Rock Paper Scissors</span>
+                    <span class="apk-meta">v1.2 • ANDROID APK</span>
                 </div>
+                <a href="RPS.apk" class="btn-install">INSTALL</a>
+            </div>
+
+            <div class="apk-item">
+                <div class="apk-info">
+                    <span class="apk-name">ArduinoDroid Tools</span>
+                    <span class="apk-meta">TECH • ANDROID APK</span>
+                </div>
+                <a href="ArduinoDroid.apk" class="btn-install">INSTALL</a>
             </div>
         </div>
 
-        <div class="card">
-            <h2>📂 UPLOAD TO HUB</h2>
-            <p style="color: #888; font-size: 0.9rem;">Share your files with Zamanai.in</p>
-            <input type="file" id="fileUpload" style="display: none;">
-            <button class="btn" onclick="document.getElementById('fileUpload').click()">SELECT FILE</button>
-            <button class="btn">UPLOAD</button>
+        <div class="card" style="text-align: center; border: 1px solid #FFD700;">
+            <p style="color: #FFD700; margin: 0; font-weight: bold;">FREE WEBSITE GIVEAWAY</p>
+            <p style="color: #FA0F00; font-size: 0.8rem; margin: 5px 0;">5 SPOTS LEFT</p>
+            <a href="http://bit.ly/47UNnPJ" style="color: white; text-decoration: underline; font-size: 0.8rem;">Click here to claim</a>
         </div>
 
-        <div class="card">
-            <h2 style="font-size: 1.2rem;">FREE SITE GIVEAWAY</h2>
-            <p style="color: #FA0F00; font-weight: bold;">5 SPOTS LEFT</p>
-            <a href="http://bit.ly/47UNnPJ" class="btn">CLAIM NOW</a>
-        </div>
     </div>
 
 </body>
