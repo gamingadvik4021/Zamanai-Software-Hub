@@ -1,27 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zamanai Tech Hub</title>
     <style>
-        body { background: #0a0a0a; color: white; font-family: sans-serif; text-align: center; margin: 0; }
-        .header { padding: 60px 20px; background: linear-gradient(to bottom, #1a1a1a, #0a0a0a); border-bottom: 2px solid #FA0F00; }
-        .promo-card { background: #161616; border: 1px solid #FFD700; border-radius: 15px; margin: 20px; padding: 25px; }
-        .highlight { color: #FFD700; font-weight: bold; }
-        .btn { background: #FA0F00; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 15px; }
+        body { 
+            background-color: #050505; 
+            color: white; 
+            font-family: 'Segoe UI', sans-serif; 
+            text-align: center; 
+            margin: 0; 
+            padding: 0; 
+        }
+        .hero { 
+            padding: 50px 20px; 
+            background: linear-gradient(to bottom, #111, #050505); 
+            border-bottom: 2px solid #FA0F00; 
+        }
+        .logo { 
+            width: 180px; 
+            border-radius: 15px; 
+            border: 2px solid #FFD700; 
+            margin-bottom: 20px; 
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); 
+        }
+        h1 { 
+            font-size: 2.2rem; 
+            letter-spacing: 2px; 
+            margin: 10px 0; 
+            text-transform: uppercase;
+        }
+        .slogan { 
+            font-style: italic; 
+            color: #FFD700; 
+            font-size: 1.1rem; 
+            margin-bottom: 30px; 
+        }
+        .offer-card { 
+            background: #161616; 
+            border: 1px solid #333; 
+            border-radius: 20px; 
+            margin: 20px auto; 
+            padding: 30px; 
+            max-width: 400px; 
+            position: relative;
+        }
+        .live-indicator {
+            color: #00FF00;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dot {
+            height: 8px;
+            width: 8px;
+            background-color: #00FF00;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        .spots-left {
+            font-size: 2.5rem;
+            color: #FA0F00;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .btn { 
+            background: #FA0F00; 
+            color: white; 
+            padding: 18px 35px; 
+            text-decoration: none; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            display: inline-block; 
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(250, 15, 0, 0.4);
+        }
+        .footer-note {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Zamanai Tech Hub</h1>
-        <p>AI Intelligence & Hardware Control</p>
+
+    <div class="hero">
+        <img src="https://raw.githubusercontent.com/gamingadvik4021/Zamanai-Software-Hub/refs/heads/master/Zamanai%20Tech.png" alt="Zamanai Tech Logo" class="logo">
+        
+        <h1>ZAMANAI TECH HUB</h1>
+        <p class="slogan">"Code the Future, Anywhere"</p>
     </div>
 
-    <div class="promo-card">
-        <h2>🚀 Launch Special</h2>
-        <p>Using Adobe Express Premium, I'm building free websites for the <span class="highlight">First 5 People</span> to join.</p>
-        <div style="font-size: 24px; margin: 15px 0;">Spots Remaining: <span class="highlight">5 / 5</span></div>
-        <a href="#" class="btn">CLAIM YOUR SITE</a>
+    <div class="offer-card">
+        <div class="live-indicator">
+            <span class="dot"></span> 4 users currently viewing this offer
+        </div>
+        <h2 style="color: #FFD700; margin-bottom: 5px;">LIMITED GIVEAWAY</h2>
+        <p style="color: #ccc; margin-top: 0;">Free professional sites using Adobe Express Premium.</p>
+        
+        <div class="spots-left">1 / 5</div>
+        <p style="margin-top: 0; font-weight: bold; color: #FA0F00;">ONLY 1 SPOT REMAINING!</p>
+        
+        <a href="https://github.com/gamingadvik4021" class="btn">CLAIM FINAL SPOT</a>
+        
+        <p class="footer-note">Joining the journey of AI & Arduino integration.</p>
     </div>
+
 </body>
 </html>
