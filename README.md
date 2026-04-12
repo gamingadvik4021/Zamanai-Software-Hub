@@ -1,13 +1,11 @@
-# 🤖 Zamanai Tech Hub
-Welcome to my official project repository. 
+# 🤖 ZAMANAI TECH HUB
+*"Code the Future, Anywhere"*
 
-### 🎯 My Mission
-To integrate AI intelligence with Arduino hardware to create a new way of controlling the world from a phone.
+Welcome to the official hub for AI-powered apps and hardware controls. 
 
-### 🎨 Design Power
-All UI and graphics are powered by **Adobe Express Premium**.
+### 🚀 THE "FIRST 5" GIVEAWAY
+I am currently offering **FREE professional website design** for the first 5 people who join this journey.
+* **Status:** 5 Spots Remaining
+* **Powered by:** Adobe Express Premium & Gemini AI
 
-### 🛠️ Tech Used
-* **Frontend:** HTML/CSS/JS
-* **Database:** Supabase
-* **Hardware:** Arduino (Control Systems)
+[Visit the Live Website](https://gamingadvik4021.github.io/Zamanai-Software-Hub/)
