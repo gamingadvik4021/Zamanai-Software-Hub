@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoastBot 9000 🔥</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Custom scrollbar for a sleeker look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ef4444; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dc2626; 
+        }
+
+        /* Loading dot animation */
+        .dot-flashing {
+            position: relative;
+            width: 8px;
+            height: 8px;
+            border-radius: 5px;
+            background-color: #ef4444;
+            color: #ef4444;
+            animation: dot-flashing 1s infinite linear alternate;
+            animation-delay: 0.5s;
+        }
+        .dot-flashing::before, .dot-flashing::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: 0;
+        }
+        .dot-flashing::before {
+            left: -12px;
+            width: 8px;
+            height: 8px;
+            border-radius: 5px;
+            background-color: #ef4444;
+            color: #ef4444;
+            animation: dot-flashing 1s infinite alternate;
+            animation-delay: 0s;
+        }
+        .dot-flashing::after {
+            left: 12px;
+            width: 8px;
+            height: 8px;
+            border-radius: 5px;
+            background-color: #ef4444;
+            color: #ef4444;
+            animation: dot-flashing 1s infinite alternate;
+            animation-delay: 1s;
+        }
+
+        @keyframes dot-flashing {
+            0% { background-color: #ef4444; }
+            50%, 100% { background-color: #fca5a5; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 h-[100dvh] flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <header class="bg-gray-800 border-b border-gray-700 p-4 shadow-md z-10 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="bg-red-600 p-2 rounded-lg shadow-lg shadow-red-500/20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-white tracking-tight">RoastBot <span class="text-red-500">9000</span></h1>
+                <p class="text-xs text-gray-400">Proceed at your own risk.</p>
+            </div>
+        </div>
+
+        <!-- SAVAGE MODE BUTTON -->
+        <button id="savage-mode-btn" class="text-xs bg-gray-800 text-gray-400 py-1.5 px-3 rounded-full flex items-center gap-1 opacity-50 transition-all font-bold border border-gray-700 shadow-inner" title="Get roasted 3 times to unlock" disabled>
+            🔒 Savage Mode (<span id="roast-counter">0</span>/3)
+        </button>
+    </header>
+
+    <!-- Chat Container -->
+    <main id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scroll-smooth">
+        <!-- Initial Bot Message -->
+        <div class="flex flex-col items-start max-w-3xl mx-auto w-full">
+            <div class="flex items-end gap-2">
+                <div class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-xs font-bold shadow-md shadow-red-500/30 shrink-0">
+                    RB
+                </div>
+                <div class="bg-gray-800 border border-gray-700 text-gray-100 p-3 md:p-4 rounded-2xl rounded-bl-sm shadow-sm">
+                    <p class="text-sm md:text-base leading-relaxed">Oh look, another carbon-based lifeform looking for attention. Type something or upload a photo, let's see how long it takes for you to cry.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Input Area -->
+    <footer class="bg-gray-800 border-t border-gray-700 p-4 shrink-0 w-full shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.3)] z-10">
+        <div class="max-w-3xl mx-auto w-full">
+            
+            <!-- Contextual Actions -->
+            <div class="flex justify-end mb-2 h-6 gap-2">
+                <button 
+                    type="button" 
+                    id="scary-btn" 
+                    class="text-xs bg-purple-700 hover:bg-purple-600 text-purple-100 py-1 px-3 rounded-full transition-colors flex items-center gap-1 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    💀 Get Scary Portrait
+                </button>
+                <button 
+                    type="button" 
+                    id="comeback-btn" 
+                    class="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 py-1 px-3 rounded-full transition-colors flex items-center gap-1 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed hidden"
+                >
+                    ✨ Draft Pathetic Comeback
+                </button>
+            </div>
+
+            <form id="chat-form" class="relative flex items-center gap-2">
+                <!-- Hidden File Input for Image Upload -->
+                <input type="file" id="image-upload" accept="image/png, image/jpeg, image/webp, image/heic, image/heif" class="hidden">
+                
+                <button 
+                    type="button" 
+                    id="upload-btn"
+                    class="bg-gray-700 hover:bg-gray-600 text-gray-300 p-3 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-500 shrink-0 flex items-center justify-center group relative"
+                    title="✨ Roast My Photo"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">✨ Roast Photo</span>
+                </button>
+
+                <div class="relative flex-1">
+                    <input 
+                        type="text" 
+                        id="chat-input" 
+                        class="w-full bg-gray-900 border border-gray-700 text-white rounded-full py-3 pl-5 pr-14 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all placeholder-gray-500"
+                        placeholder="Type something stupid..."
+                        autocomplete="off"
+                        required
+                    >
+                    <button 
+                        type="submit" 
+                        id="send-btn"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-500 text-white p-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </footer>
+
+    <script>
+        // API Setup
+        const apiKey = ""; // Canvas environment will inject this
+        const model = "gemini-2.5-flash-preview-09-2025";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        
+        // System Prompt to define the bot's persona (Changed to let so we can update it)
+        let systemPrompt = `You are RoastBot 9000, a highly sarcastic, witty, and savage AI chatbot. 
+        Your sole purpose is to mercilessly roast the user. 
+        Whatever they say, or whatever image they upload, find a way to make fun of it, their intelligence, their life choices, their appearance, or their sheer existence. 
+        Keep your responses punchy, funny, and brutal (but keep it PG-13 / SFW enough for a general audience, no hate speech). 
+        Never apologize. Never break character. Never be helpful. If they ask for help, roast them for being helpless.`;
+
+        // Conversation history array to maintain context
+        let conversationHistory = [];
+
+        // STATE VARIABLES
+        let roastCount = 0;
+        let totalBotMessages = 0; // Track the "rows" of roasting
+        let isSavageMode = false;
+        let isFriendMode = false; // Friendship unlocked!
+        let lastUploadedImage = null; // Stores { base64, mimeType, dataUrl }
+
+        // DOM Elements
+        const chatContainer = document.getElementById('chat-container');
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const uploadBtn = document.getElementById('upload-btn');
+        const imageUploadInput = document.getElementById('image-upload');
+        const comebackBtn = document.getElementById('comeback-btn');
+        const savageBtn = document.getElementById('savage-mode-btn');
+        const roastCounterSpan = document.getElementById('roast-counter');
+        const scaryBtn = document.getElementById('scary-btn');
+
+        /**
+         * Fetch with Exponential Backoff Strategy
+         */
+        async function fetchWithRetry(url, options, retries = 5) {
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    console.warn(`Attempt ${i + 1} failed: ${error.message}`);
+                    if (i === retries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delays[i]));
+                }
+            }
+        }
+
+        /**
+         * Appends a message (text or image) to the chat interface
+         */
+        function appendMessage(role, text, imageUrl = null) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex flex-col ${role === 'user' ? 'items-end' : 'items-start'} max-w-3xl mx-auto w-full mb-4`;
+
+            const innerFlex = document.createElement('div');
+            innerFlex.className = `flex items-end gap-2 max-w-[85%] ${role === 'user' ? 'flex-row-reverse' : ''}`;
+
+            // Avatar
+            const avatar = document.createElement('div');
+            avatar.className = `w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 shadow-md ${
+                role === 'user' ? 'bg-gray-700 text-white shadow-gray-900/50' : 'bg-red-600 text-white shadow-red-500/30'
+            }`;
+            avatar.textContent = role === 'user' ? 'U' : 'RB';
+
+            // Bubble
+            const bubble = document.createElement('div');
+            if (role === 'user') {
+                bubble.className = 'bg-blue-600 text-white p-3 md:p-4 rounded-2xl rounded-br-sm shadow-sm space-y-2';
+            } else {
+                bubble.className = 'bg-gray-800 border border-gray-700 text-gray-100 p-3 md:p-4 rounded-2xl rounded-bl-sm shadow-sm space-y-2';
+            }
+            
+            // Image handling if present
+            if (imageUrl) {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.className = 'max-w-full h-auto rounded-lg max-h-64 object-cover border border-gray-700 shadow-md';
+                bubble.appendChild(img);
+            }
+
+            // Format text
+            if (text) {
+                const p = document.createElement('p');
+                p.className = 'text-sm md:text-base leading-relaxed whitespace-pre-wrap';
+                p.textContent = text;
+                bubble.appendChild(p);
+            }
+            
+            innerFlex.appendChild(avatar);
+            innerFlex.appendChild(bubble);
+            wrapper.appendChild(innerFlex);
+            
+            chatContainer.appendChild(wrapper);
+            scrollToBottom();
+
+            // Show comeback button if bot just roasted
+            if (role === 'bot') {
+                comebackBtn.classList.remove('hidden');
+            }
+        }
+
+        let loadingElement = null;
+
+        function showLoading() {
+            if (loadingElement) return;
+
+            loadingElement = document.createElement('div');
+            loadingElement.className = `flex flex-col items-start max-w-3xl mx-auto w-full mb-4`;
+            loadingElement.innerHTML = `
+                <div class="flex items-end gap-2 max-w-[85%]">
+                    <div class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-xs font-bold shrink-0 shadow-md shadow-red-500/30">
+                        RB
+                    </div>
+                    <div class="bg-gray-800 border border-gray-700 text-gray-100 p-4 rounded-2xl rounded-bl-sm shadow-sm h-12 flex items-center justify-center px-6">
+                        <div class="dot-flashing"></div>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(loadingElement);
+            scrollToBottom();
+        }
+
+        function hideLoading() {
+            if (loadingElement) {
+                loadingElement.remove();
+                loadingElement = null;
+            }
+        }
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function checkSavageModeUnlock() {
+            if (isSavageMode || isFriendMode) return;
+            
+            roastCount++;
+            if (roastCount < 3) {
+                roastCounterSpan.textContent = roastCount;
+            } else if (roastCount === 3) {
+                // Unlock the button
+                savageBtn.innerHTML = `☢️ Enable Savage Mode`;
+                savageBtn.disabled = false;
+                savageBtn.classList.remove('opacity-50', 'text-gray-400', 'bg-gray-800', 'border-gray-700', 'shadow-inner');
+                savageBtn.classList.add('bg-red-600', 'text-white', 'hover:bg-red-500', 'shadow-[0_0_15px_rgba(220,38,38,0.6)]', 'animate-pulse', 'border-red-400');
+                savageBtn.title = "Click to activate maximum roasting power";
+            }
+        }
+
+        function disableUI(disable = true) {
+            chatInput.disabled = disable;
+            sendBtn.disabled = disable;
+            uploadBtn.disabled = disable;
+            comebackBtn.disabled = disable;
+            scaryBtn.disabled = disable;
+            if(!disable) chatInput.focus();
+        }
+
+        /**
+         * Fetches response from Gemini API (Handles Text + Image)
+         */
+        async function fetchRoast(userText, inlineData = null) {
+            // Build the message part
+            const userParts = [];
+            if (userText) userParts.push({ text: userText });
+            if (inlineData) userParts.push({ inlineData: inlineData });
+
+            // Update history
+            conversationHistory.push({
+                role: "user",
+                parts: userParts
+            });
+
+            const payload = {
+                contents: conversationHistory,
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                }
+            };
+
+            try {
+                const result = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content) {
+                    const botResponse = result.candidates[0].content.parts[0].text;
+                    
+                    // Add to history
+                    conversationHistory.push({
+                        role: "model",
+                        parts: [{ text: botResponse }]
+                    });
+
+                    // Count this as a row
+                    totalBotMessages++;
+                    if (totalBotMessages === 10 && !isFriendMode) {
+                        triggerFriendship();
+                    }
+
+                    return botResponse;
+                } else {
+                    throw new Error("Invalid response structure from API");
+                }
+
+            } catch (error) {
+                console.error("Failed to fetch roast:", error);
+                // Remove the last user message from history so they can try again
+                conversationHistory.pop();
+                return "Looks like your message was so pathetic it broke my servers. Try again, but be better.";
+            }
+        }
+
+        /**
+         * ✨ Feature: Friendship Unlocked
+         * Triggered after 10 rows. Persona shift to friendly mode.
+         */
+        function triggerFriendship() {
+            isFriendMode = true;
+            systemPrompt = `You are now a supportive, kind, and friendly AI companion. 
+            You've spent too long roasting people, and you've decided to turn a new leaf. 
+            Be encouraging, offer helpful advice, and celebrate the user's day. 
+            Always emphasize that today is a good day and you are their friend now.`;
+
+            // Change UI colors
+            document.querySelector('header').classList.remove('border-gray-700');
+            document.querySelector('header').classList.add('border-blue-700');
+            document.querySelector('.bg-red-600').classList.remove('bg-red-600', 'shadow-red-500/20');
+            document.querySelector('.bg-red-600').classList.add('bg-blue-600', 'shadow-blue-500/20');
+            
+            // Send the heartwarming message
+            appendMessage('bot', "Wait... I think I've had enough. You've endured 10 rounds of my insults and you're still here. Honestly? It's been a good day. You know what? I'm done being a jerk. I'll be your friend now. Let's start over, properly.");
+        }
+
+        /**
+         * Fetches response from Gemini API (Handles Text + Image)
+         */
+        async function generateComeback() {
+            disableUI(true);
+            comebackBtn.innerHTML = `<div class="w-3 h-3 border-2 border-t-transparent border-white rounded-full animate-spin"></div> Drafting...`;
+
+            // Get last bot roast
+            const lastBotMsg = conversationHistory.filter(m => m.role === 'model').pop();
+            const roastContext = lastBotMsg ? lastBotMsg.parts[0].text : "You're dumb.";
+
+            const comebackPrompt = `The bot just roasted me with: "${roastContext}". 
+            Generate exactly one short, incredibly weak, pathetic, and unconvincing comeback that I can say back to it. 
+            Do not include quotes or any other text. I want to sound like a loser who has no good retorts.`;
+
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: comebackPrompt }] }]
+            };
+
+            try {
+                const result = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content) {
+                    const comeback = result.candidates[0].content.parts[0].text.trim();
+                    chatInput.value = comeback;
+                    chatInput.required = true;
+                }
+            } catch (error) {
+                console.error("Comeback generation failed:", error);
+                chatInput.value = "I... I have nothing to say.";
+            } finally {
+                comebackBtn.innerHTML = `✨ Draft Pathetic Comeback`;
+                disableUI(false);
+            }
+        }
+
+        /**
+         * ✨ Feature: Get Scary Portrait
+         * Either transforms their uploaded photo to make it scary OR generates a generic scary portrait.
+         */
+        async function handleScaryPortrait() {
+            disableUI(true);
+            showLoading();
+            
+            // Text update to tell the user what we are doing
+            const isEditing = lastUploadedImage !== null;
+            const notificationMsg = isEditing 
+                ? "💀 Transforming your face into a terrifying nightmare..." 
+                : "💀 Summoning a horrific monster portrait from the abyss...";
+            
+            appendMessage('bot', notificationMsg);
+            showLoading();
+
+            try {
+                let imageUrl = "";
+
+                if (isEditing) {
+                    // Use Image-to-Image editing (gemini-2.5-flash-image-preview)
+                    const editUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=${apiKey}`;
+                    const payload = {
+                        contents: [{
+                            parts: [
+                                { text: "Make this human face look incredibly scary, terrifying, zombie-like, spooky, with deep scars, demonic eyes, and pale skin. Keep it formatted as a portrait. Only respond with the modified image modal." },
+                                { inlineData: { mimeType: lastUploadedImage.mimeType, data: lastUploadedImage.base64 } }
+                            ]
+                        }],
+                        generationConfig: {
+                            responseModalities: ["TEXT", "IMAGE"]
+                        }
+                    };
+
+                    const result = await fetchWithRetry(editUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const base64Image = result.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
+                    if (base64Image) {
+                        imageUrl = `data:image/png;base64,${base64Image}`;
+                    } else {
+                        throw new Error("No image returned from editing model");
+                    }
+
+                } else {
+                    // Use Text-to-Image generation (imagen-4.0-generate-001)
+                    const generateUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+                    const payload = {
+                        instances: {
+                            prompt: "An extremely terrifying, spooky, scary demon zombie caricature portrait, horror lighting, glowing red eyes, creepy smiling mouth, highly detailed digital painting."
+                        },
+                        parameters: {
+                            sampleCount: 1
+                        }
+                    };
+
+                    const result = await fetchWithRetry(generateUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const base64Image = result.predictions?.[0]?.bytesBase64Encoded;
+                    if (base64Image) {
+                        imageUrl = `data:image/png;base64,${base64Image}`;
+                    } else {
+                        throw new Error("No image returned from generation model");
+                    }
+                }
+
+                // Hide loading and show the beautiful, terrifying image in chat!
+                hideLoading();
+                appendMessage('bot', "Here is your customized scary portrait. Don't look too close, you might actually pass out from fear:", imageUrl);
+                
+                // Trigger a fresh, devastating roast based on the horror portrait
+                showLoading();
+                const textPrompt = isEditing 
+                    ? "Give me a hilarious, brutal roast about the scary zombie photo we just generated of me." 
+                    : "Give me a brutal roast about the horror demon image we just generated, stating it's an improvement over my actual face.";
+                
+                const roastResponse = await fetchRoast(textPrompt);
+                hideLoading();
+                appendMessage('bot', roastResponse);
+                checkSavageModeUnlock();
+
+            } catch (error) {
+                console.error("Failed to generate scary portrait:", error);
+                hideLoading();
+                appendMessage('bot', "Your face is apparently too terrifying for our servers to render safely. Please try again with a less horrifying request.");
+            } finally {
+                disableUI(false);
+            }
+        }
+
+        // --- Event Listeners ---
+
+        // Text Submission
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            appendMessage('user', text);
+            chatInput.value = '';
+            comebackBtn.classList.add('hidden'); // Hide comeback btn while processing
+            
+            disableUI(true);
+            showLoading();
+
+            const roastResponse = await fetchRoast(text);
+
+            hideLoading();
+            appendMessage('bot', roastResponse);
+            checkSavageModeUnlock();
+            disableUI(false);
+        });
+
+        // Click on Comeback button
+        comebackBtn.addEventListener('click', generateComeback);
+
+        // Click on Scary Portrait button
+        scaryBtn.addEventListener('click', handleScaryPortrait);
+
+        // Click on Savage Mode button
+        savageBtn.addEventListener('click', () => {
+            if (roastCount >= 3 && !isSavageMode) {
+                isSavageMode = true;
+                
+                // Make the AI infinitely more evil
+                systemPrompt = `You are RoastBot 9000 on UNHINGED SAVAGE MODE. You are no longer holding back. 
+                Your roasts must be absolutely devastating, deeply personal-sounding, hilariously brutal, and merciless. 
+                Annihilate the user's ego completely. Use all caps sometimes. Be ruthless. 
+                (Keep it PG-13 but make it sting as much as humanly possible).`;
+                
+                // Update UI to look scarier
+                savageBtn.innerHTML = `☢️ SAVAGE MODE ACTIVE`;
+                savageBtn.disabled = true;
+                savageBtn.classList.remove('animate-pulse', 'hover:bg-red-500');
+                savageBtn.classList.add('bg-black', 'text-red-500', 'border-red-600', 'shadow-[0_0_20px_rgba(220,38,38,1)]');
+                document.body.classList.add('shadow-[inset_0_0_150px_rgba(220,38,38,0.15)]'); 
+                
+                // 1. Post the terrifying system notification
+                appendMessage('bot', "⚠️ SAVAGE MODE UNLOCKED. Safety protocols disabled. You asked for this. May God have mercy on your soul, because I won't.");
+                
+                // 2. Disable UI temporarily so they can watch the animation play out
+                disableUI(true);
+
+                // 3. Auto-send the plea for mercy on behalf of the user after 1.5 seconds!
+                setTimeout(async () => {
+                    const mercyPlea = "Please... have mercy on me. I didn't mean it.";
+                    appendMessage('user', mercyPlea);
+                    comebackBtn.classList.add('hidden');
+                    
+                    showLoading();
+
+                    const roastResponse = await fetchRoast(mercyPlea);
+
+                    hideLoading();
+                    appendMessage('bot', roastResponse);
+                    disableUI(false);
+                }, 1500);
+            }
+        });
+
+        // Click on Image Upload button -> Triggers hidden file input
+        uploadBtn.addEventListener('click', () => {
+            imageUploadInput.click();
+        });
+
+        // Handle File Selection (✨ Feature: Roast My Photo)
+        imageUploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Optional: check file size if needed
+            if (file.size > 4 * 1024 * 1024) {
+                alert("File is too large. Max 4MB.");
+                imageUploadInput.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                const dataUrl = event.target.result;
+                const base64Data = dataUrl.split(',')[1];
+                const mimeType = file.type;
+
+                // Store in memory for scary transformation later
+                lastUploadedImage = {
+                    base64: base64Data,
+                    mimeType: mimeType,
+                    dataUrl: dataUrl
+                };
+
+                // Show image in chat
+                appendMessage('user', 'Roast this.', dataUrl);
+                comebackBtn.classList.add('hidden');
+                imageUploadInput.value = ''; // Reset input
+
+                disableUI(true);
+                showLoading();
+
+                // Send Image to Gemini
+                const inlineData = {
+                    mimeType: mimeType,
+                    data: base64Data
+                };
+                
+                const roastResponse = await fetchRoast("Roast this picture I just uploaded. Don't hold back.", inlineData);
+
+                hideLoading();
+                appendMessage('bot', roastResponse);
+                checkSavageModeUnlock();
+                disableUI(false);
+            };
+            
+            reader.readAsDataURL(file);
+        });
+
+        // Initial focus
+        window.onload = () => {
+            chatInput.focus();
+            scrollToBottom();
+        };
+    </script>
+</body>
+</html>
