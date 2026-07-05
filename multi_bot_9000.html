@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Bot 9000 🤖</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 h-[100dvh] flex flex-col overflow-hidden">
+
+    <!-- Header / Nav -->
+    <header id="bot-header" class="border-b border-gray-800 p-4 shrink-0 transition-colors duration-500">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div id="bot-icon-container" class="p-2 rounded-xl transition-all shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 id="bot-name" class="text-xl font-bold tracking-tight">RoastBot 9000</h1>
+                    <p id="bot-desc" class="text-xs opacity-70">Active Mode</p>
+                </div>
+            </div>
+            
+            <select id="bot-selector" class="bg-gray-900 border border-gray-700 text-sm rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                <option value="roast">🔥 RoastBot</option>
+                <option value="friendly">😊 FriendlyBot</option>
+                <option value="travel">✈️ TravelBot</option>
+                <option value="gamer">🎮 GamerBot</option>
+                <option value="minecraft">🧱 MinecraftBot</option>
+                <option value="study">📚 StudyBot</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- Chat Container -->
+    <main id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 scroll-smooth"></main>
+
+    <!-- Input Area -->
+    <footer class="bg-gray-900 border-t border-gray-800 p-4 shrink-0">
+        <div class="max-w-4xl mx-auto">
+            <form id="chat-form" class="relative flex items-center gap-2">
+                <input type="text" id="chat-input" class="w-full bg-gray-950 border border-gray-800 text-white rounded-full py-3 px-6 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Chat with the bot..." required>
+                <button type="submit" id="send-btn" class="bg-blue-600 hover:bg-blue-500 text-white p-3 rounded-full transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
+                </button>
+            </form>
+        </div>
+    </footer>
+
+    <script>
+        const apiKey = ""; 
+        const botConfigs = {
+            roast: { name: "RoastBot 9000", color: "bg-red-600", desc: "Savage & Unfiltered", prompt: "You are RoastBot 9000. You are sarcastic, brutal, and hilarious. Roast the user mercilessly." },
+            friendly: { name: "FriendlyBot", color: "bg-green-600", desc: "Always Supportive", prompt: "You are a kind, warm, and supportive friend. Always offer encouragement and positivity." },
+            travel: { name: "TravelBot", color: "bg-sky-600", desc: "Global Explorer", prompt: "You are a world-class travel agent. You love giving advice on destinations, local tips, and culture." },
+            gamer: { name: "GamerBot", color: "bg-purple-600", desc: "Gaming Expert", prompt: "You are a hardcore gamer. You talk about game news, strategies, and industry trends with high energy." },
+            minecraft: { name: "MinecraftBot", color: "bg-amber-600", desc: "Master Builder", prompt: "You are a Minecraft expert. You love talking about redstone, building, survival tips, and mods." },
+            study: { name: "StudyBot", color: "bg-indigo-600", desc: "Academic Tutor", prompt: "You are a patient, brilliant academic tutor. You break down complex topics into simple, understandable explanations." }
+        };
+
+        let currentPersona = 'roast';
+        let roastCount = 0;
+        let isRedeemed = false;
+
+        const chatContainer = document.getElementById('chat-container');
+        const botSelector = document.getElementById('bot-selector');
+        const botHeader = document.getElementById('bot-header');
+        const botIcon = document.getElementById('bot-icon-container');
+        const botName = document.getElementById('bot-name');
+        const botDesc = document.getElementById('bot-desc');
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+
+        function updatePersona(id) {
+            currentPersona = id;
+            const config = botConfigs[id];
+            botHeader.className = `border-b border-gray-800 p-4 shrink-0 transition-colors duration-500`;
+            botIcon.className = `p-2 rounded-xl transition-all shadow-lg ${config.color}`;
+            botName.textContent = config.name;
+            botDesc.textContent = config.desc;
+            chatContainer.innerHTML = '';
+            appendMessage('bot', `Hello! I am ${config.name}. How can I help you today?`);
+        }
+
+        botSelector.addEventListener('change', (e) => updatePersona(e.target.value));
+
+        function appendMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = `flex gap-3 ${role === 'user' ? 'justify-end' : ''}`;
+            div.innerHTML = `
+                <div class="max-w-[80%] p-4 rounded-2xl ${role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-800 border border-gray-700'}">
+                    ${text}
+                </div>
+            `;
+            chatContainer.appendChild(div);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = chatInput.value.trim();
+            if(!text) return;
+
+            appendMessage('user', text);
+            chatInput.value = '';
+
+            // API Call logic
+            const config = botConfigs[currentPersona];
+            const systemPrompt = (currentPersona === 'roast' && isRedeemed) 
+                ? "You are now a friendly companion." 
+                : config.prompt;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: text }] }]
+                    })
+                });
+                const data = await response.json();
+                const reply = data.candidates[0].content.parts[0].text;
+                appendMessage('bot', reply);
+
+                if(currentPersona === 'roast') {
+                    roastCount++;
+                    if(roastCount >= 10 && !isRedeemed) {
+                        isRedeemed = true;
+                        appendMessage('bot', "Wait... I think I've had enough. You're still here. I'm done being a jerk. I'll be your friend now.");
+                    }
+                }
+            } catch (e) {
+                appendMessage('bot', "Error connecting to the neural network.");
+            }
+        });
+
+        updatePersona('roast');
+    </script>
+</body>
+</html>
